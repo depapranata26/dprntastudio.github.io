@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan Adat Minangkabau</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- VARIABEL WARNA MARAWA MINANGKABAU --- */
+        :root {
+            --minang-hitam: #111111;   /* Melambangkan Ninik Mamak / Logika */
+            --minang-merah: #B22222;   /* Melambangkan Cerdik Pandai / Keberanian */
+            --minang-emas: #D4AF37;    /* Melambangkan Alim Ulama / Keagungan */
+            --bg-color: #FAFAFA;       
+            --bg-card: #FFFFFF;
+            --text-main: #333333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Quicksand', sans-serif; 
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow: hidden; 
+        }
+        .undangan-aktif { overflow-y: auto; } 
+
+        h1, h2, h3, .font-adat { font-family: 'Playfair Display', serif; }
+
+        /* --- PITA MARAWA (Hitam, Merah, Emas) --- */
+        .marawa-ribbon {
+            height: 12px; width: 100%;
+            background: linear-gradient(to right, 
+                var(--minang-hitam) 0%, var(--minang-hitam) 33.3%, 
+                var(--minang-merah) 33.3%, var(--minang-merah) 66.6%, 
+                var(--minang-emas) 66.6%, var(--minang-emas) 100%);
+        }
+
+        /* --- COVER UNDANGAN MINANG --- */
+        #cover {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            /* Background ukiran Minang / Songket / Rumah Gadang */
+            background: linear-gradient(rgba(17, 17, 17, 0.8), rgba(178, 34, 34, 0.7)), url('https://images.unsplash.com/photo-1604068545808-11f86f71fb1c?auto=format&fit=crop&w=800&q=80') center/cover;
+            color: #FFF; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; z-index: 9999; transition: transform 1.2s cubic-bezier(0.86, 0, 0.07, 1), opacity 1.2s ease;
+        }
+        .cover-terbuka { transform: translateY(-100vh); opacity: 0; pointer-events: none; }
+        
+        /* Bingkai Emas di Cover */
+        .bingkai-cover {
+            border: 4px double var(--minang-emas);
+            padding: 40px 20px; border-radius: 15px; width: 90%; max-width: 400px;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(3px);
+        }
+
+        .baralek { font-size: 1.5rem; letter-spacing: 5px; color: var(--minang-emas); margin-bottom: 15px; font-weight: bold; text-transform: uppercase; }
+        #cover h1 { font-size: 3rem; margin: 10px 0; color: #FFF; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
+        
+        .btn-cover {
+            background-color: var(--minang-merah); color: #FFF; border: 2px solid var(--minang-emas);
+            padding: 12px 35px; border-radius: 30px; font-size: 1rem; font-weight: bold; cursor: pointer;
+            margin-top: 30px; transition: 0.4s; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        .btn-cover:hover { background-color: var(--minang-emas); color: var(--minang-hitam); }
+
+        /* --- LAYOUT UTAMA --- */
+        .wadah { max-width: 500px; margin: 0 auto; background: var(--bg-card); box-shadow: 0 0 30px rgba(0,0,0,0.1); }
+        section { padding: 60px 25px; text-align: center; position: relative; border-bottom: 1px solid #eee; }
+        
+        .judul-section { 
+            font-size: 2.2rem; color: var(--minang-merah); margin-bottom: 25px; 
+            font-weight: bold; position: relative; display: inline-block;
+        }
+        .judul-section::after {
+            content: ''; display: block; width: 60px; height: 3px; background: var(--minang-emas);
+            margin: 10px auto 0 auto; border-radius: 5px;
+        }
+
+        /* --- PROFIL MEMPELAI (MARAPULAI & ANAK DARO) --- */
+        .mempelai-box { display: flex; flex-direction: column; gap: 40px; margin-top: 20px; }
+        .profil { 
+            background: var(--bg-color); padding: 35px 20px 25px 20px; border-radius: 10px; 
+            border: 1px solid #eaeaea; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            border-bottom: 5px solid var(--minang-merah);
+        }
+        .label-adat { 
+            background: var(--minang-hitam); color: var(--minang-emas); padding: 6px 20px; 
+            font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: bold;
+            position: absolute; top: -18px; left: 50%; transform: translateX(-50%); 
+            letter-spacing: 2px; text-transform: uppercase; border: 2px solid var(--minang-emas);
+        }
+        .profil h3 { font-size: 1.8rem; color: var(--minang-hitam); margin-bottom: 10px; }
+        .profil p { font-size: 0.95rem; color: var(--text-main); line-height: 1.6; }
+        .dan-simbol { font-size: 3rem; color: var(--minang-emas); font-family: 'Playfair Display', serif; }
+
+        /* --- ACARA & COUNTDOWN --- */
+        .countdown-box { display: flex; justify-content: center; gap: 10px; margin: 30px 0; }
+        .cd-item { background: var(--minang-hitam); color: var(--minang-emas); padding: 15px 10px; border-radius: 5px; width: 75px; border-top: 3px solid var(--minang-merah); }
+        .cd-item span { display: block; font-size: 1.8rem; font-weight: bold; font-family: 'Playfair Display', serif; }
+        .cd-item small { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #fff; }
+        
+        .card-acara { background: var(--bg-color); color: var(--minang-hitam); padding: 30px 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ddd; border-left: 6px solid var(--minang-emas); text-align: left;}
+        .card-acara h3 { color: var(--minang-merah); font-size: 1.6rem; margin-bottom: 15px; }
+
+        /* --- RSVP & UCAPAN --- */
+        .form-rsvp { display: flex; flex-direction: column; gap: 15px; text-align: left; }
+        .form-rsvp input, .form-rsvp select, .form-rsvp textarea {
+            width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit; background: var(--bg-card);
+        }
+        .form-rsvp input:focus, .form-rsvp textarea:focus { outline: none; border-color: var(--minang-merah); }
+        .form-rsvp button { background: var(--minang-merah); color: #FFF; border: none; padding: 15px; border-radius: 5px; cursor: pointer; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
+        .form-rsvp button:hover { background: var(--minang-hitam); color: var(--minang-emas); }
+        
+        .daftar-ucapan { margin-top: 30px; max-height: 350px; overflow-y: auto; text-align: left; border: 1px solid #eee; padding: 15px; border-radius: 5px; background: var(--bg-color); }
+        .ucapan-item { padding: 15px 0; border-bottom: 1px dashed #ccc; font-size: 0.95rem; }
+        .ucapan-item:last-child { border-bottom: none; }
+        .ucapan-item strong { display: block; color: var(--minang-hitam); margin-bottom: 5px; font-size: 1.1rem; }
+        .badge-hadir { background: var(--minang-emas); color: var(--minang-hitam); padding: 3px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; margin-left: 5px;}
+
+        /* --- REKENING --- */
+        .rek-box { background: var(--bg-color); border: 2px dashed var(--minang-merah); padding: 25px; border-radius: 10px; margin-bottom: 15px; position: relative;}
+        .rek-box h3 { color: var(--minang-hitam); }
+        .btn-salin { background: var(--minang-hitam); color: var(--minang-emas); border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <!-- MUSIK KHAS MINANGKABAU (Instrumen Saluang / Bansi / Talempong) -->
+    <!-- Saat rilis, ganti link mp3 ini dengan instrumen Minang asli -->
+    <audio id="musik-latar" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 1. COVER DEPAN MINANG -->
+    <div id="cover">
+        <div class="bingkai-cover">
+            <div class="baralek font-adat">BARALEK GADANG</div>
+            
+            <h1 class="nama-mempelai-cover">Nama <br>&<br> Nama</h1>
+            <p style="font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 30px; font-weight: bold;" class="tanggal-cover">Menunggu Data...</p>
+
+            <p style="font-size: 0.9rem; color: #ddd;">Kpd Yth. Bapak/Ibu/Saudara/i</p>
+            <h2 id="tamu" class="font-adat" style="font-size: 1.6rem; margin: 10px 0; color: var(--minang-emas);">Tamu Spesial</h2>
+            
+            <button class="btn-cover" onclick="bukaUndangan()">Buka Undangan</button>
+        </div>
+    </div>
+
+    <!-- 2. KONTEN UTAMA -->
+    <div class="wadah">
+        <!-- PITA MARAWA DI ATAS KONTEN -->
+        <div class="marawa-ribbon"></div>
+
+        <!-- PEMBUKA (Filosofi Minang) -->
+        <section>
+            <h2 class="judul-section" style="font-size: 1.8rem; color: var(--minang-hitam);">Assalamu'alaikum<br>Warahmatullahi Wabarakatuh</h2>
+            <p style="color: var(--minang-merah); font-weight: bold; font-style: italic; margin-top: 15px;">"Adat Basandi Syarak, Syarak Basandi Kitabullah"</p>
+            <p style="color: var(--text-main); font-size: 1rem; line-height: 1.8; margin-top: 15px;">Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan putra-putri kami:</p>
+        </section>
+
+        <!-- PROFIL MEMPELAI -->
+        <section>
+            <div class="mempelai-box">
+                <div class="profil">
+                    <div class="label-adat">Marapulai</div>
+                    <h3 class="nama-pria font-adat">Nama Pria</h3>
+                    <p>Putra dari:<br>Bapak ... & Ibu ...</p>
+                </div>
+                <div class="dan-simbol font-adat">&</div>
+                <div class="profil">
+                    <div class="label-adat">Anak Daro</div>
+                    <h3 class="nama-wanita font-adat">Nama Wanita</h3>
+                    <p>Putri dari:<br>Bapak ... & Ibu ...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACARA & COUNTDOWN -->
+        <section>
+            <h2 class="judul-section">Waktu Acara</h2>
+            
+            <div class="countdown-box">
+                <div class="cd-item"><span id="hari">00</span><small>Hari</small></div>
+                <div class="cd-item"><span id="jam">00</span><small>Jam</small></div>
+                <div class="cd-item"><span id="menit">00</span><small>Menit</small></div>
+                <div class="cd-item"><span id="detik">00</span><small>Detik</small></div>
+            </div>
+
+            <div class="card-acara">
+                <h3 class="font-adat">Akad Nikah</h3>
+                <p style="margin: 10px 0; color: #666;" class="tanggal-teks">Tanggal Acara</p>
+                <p style="font-weight: bold; font-size: 1.1rem; margin-bottom: 5px;">Pukul <span class="waktu-akad">00:00</span> WIB</p>
+                <p class="lokasi-akad">Lokasi Masjid/Rumah</p>
+            </div>
+
+            <div class="card-acara">
+                <h3 class="font-adat">Baralek / Resepsi</h3>
+                <p style="margin: 10px 0; color: #666;" class="tanggal-teks">Tanggal Acara</p>
+                <p style="font-weight: bold; font-size: 1.1rem; margin-bottom: 5px;">Pukul <span class="waktu-resepsi">00:00</span> WIB - Selesai</p>
+                <p class="lokasi-resepsi">Lokasi Gedung / Rumah Gadang</p>
+            </div>
+        </section>
+
+        <!-- AMPLOP DIGITAL -->
+        <section>
+            <h2 class="judul-section">Tanda Kasih</h2>
+            <p style="margin-bottom: 25px; font-size: 0.95rem; line-height: 1.6;">Kehadiran dan doa restu Bapak/Ibu/Saudara/i adalah anugerah terbesar bagi kami. Namun, apabila ingin memberikan tanda kasih sayang, dapat melalui rekening di bawah ini:</p>
+            
+            <div class="rek-box">
+                <h3 class="nama-bank font-adat" style="font-size: 1.8rem; color: var(--minang-merah);">Bank ...</h3>
+                <p style="font-size: 1.6rem; font-weight: bold; margin: 10px 0; letter-spacing: 2px;" id="nomor-rekening">0000000000</p>
+                <p class="atas-nama" style="font-style: italic; color: #666;">a.n ...</p>
+                <button class="btn-salin" onclick="salinRekening()">Salin Rekening</button>
+            </div>
+        </section>
+
+        <!-- RSVP & UCAPAN -->
+        <section>
+            <h2 class="judul-section">Doa Restu</h2>
+            <p style="margin-bottom: 20px; font-size: 0.9rem;">Sampaikan doa untuk kedua mempelai dan konfirmasi kehadiran Anda.</p>
+            <form class="form-rsvp" id="form-rsvp" onsubmit="kirimRSVP(event)">
+                <input type="text" id="nama-rsvp" placeholder="Nama Anda" required>
+                <select id="kehadiran" required>
+                    <option value="" disabled selected>Konfirmasi Kehadiran</option>
+                    <option value="Hadir">Insya Allah Hadir</option>
+                    <option value="Tidak Hadir">Berhalangan Hadir</option>
+                </select>
+                <textarea id="pesan-rsvp" rows="4" placeholder="Tulis doa untuk Marapulai & Anak Daro..." required></textarea>
+                <button type="submit">Kirim Doa</button>
+            </form>
+
+            <div class="daftar-ucapan" id="daftar-ucapan">
+                <!-- Ucapan dari Sheets akan muncul di sini -->
+            </div>
+        </section>
+        
+        <!-- PITA MARAWA DI BAWAH FOOTER -->
+        <div class="marawa-ribbon"></div>
+        <section style="padding: 25px; background: var(--minang-hitam); color: #888; font-size: 0.8rem; border: none;">
+            Created with ❤️ by dprnta.studio
+        </section>
+    </div>
+
+    <!-- JAVASCRIPT & INTEGRASI GOOGLE SHEETS -->
+    <script>
+        const BACKEND_URL = "https://script.google.com/macros/s/AKfycbxt7qPyXBbS0wcJeaeslqku-In9OAq-Q99dmqmuUjdpMxKQ13bkth4urMsYo99BBtoz/exec";
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const namaTamu = urlParams.get('to') || "Bapak/Ibu/Saudara/i";
+        const idPesanan = urlParams.get('id') || "INV-001";
+        
+        document.getElementById('tamu').innerText = namaTamu;
+        let targetDate = new Date().getTime(); 
+        let hitungMundur;
+
+        async function muatDataKlien() {
+            try {
+                const response = await fetch(`${BACKEND_URL}?id=${idPesanan}`);
+                const result = await response.json();
+                
+                if (result.status === "sukses") {
+                    const data = result.data;
+                    
+                    document.querySelector('.nama-mempelai-cover').innerHTML = `${data.Nama_Pria} <br>&<br> ${data.Nama_Wanita}`;
+                    document.querySelector('.nama-pria').innerText = data.Nama_Pria;
+                    document.querySelector('.nama-wanita').innerText = data.Nama_Wanita;
+                    document.querySelector('.tanggal-cover').innerText = data.Tanggal_Acara;
+                    
+                    const tglTeks = document.querySelectorAll('.tanggal-teks');
+                    tglTeks.forEach(el => el.innerText = data.Tanggal_Acara);
+                    
+                    document.querySelector('.waktu-akad').innerText = data.Waktu_Akad;
+                    document.querySelector('.lokasi-akad').innerText = data.Lokasi_Akad;
+                    document.querySelector('.waktu-resepsi').innerText = data.Waktu_Resepsi;
+                    document.querySelector('.lokasi-resepsi').innerText = data.Lokasi_Resepsi;
+                    
+                    document.querySelector('.nama-bank').innerText = `Bank ${data.Nama_Bank}`;
+                    document.getElementById('nomor-rekening').innerText = data.Nomor_Rekening;
+                    document.querySelector('.atas-nama').innerText = `a.n. ${data.Atas_Nama_Rekening}`;
+                    
+                    targetDate = new Date(data.Tanggal_Acara).getTime();
+                    mulaiCountdown();
+                }
+            } catch (error) { console.error("Error mengambil data:", error); }
+        }
+
+        muatDataKlien();
+
+        function bukaUndangan() {
+            document.getElementById('cover').classList.add('cover-terbuka');
+            document.body.classList.add('undangan-aktif'); 
+            document.getElementById('musik-latar').play().catch(e => console.log("Autoplay diblokir browser"));
+        }
+        
+        function mulaiCountdown() {
+            clearInterval(hitungMundur);
+            hitungMundur = setInterval(function() {
+                const sekarang = new Date().getTime();
+                const selisih = targetDate - sekarang;
+
+                if (selisih < 0) {
+                    clearInterval(hitungMundur);
+                    document.getElementById("hari").innerText = "00";
+                    document.getElementById("jam").innerText = "00";
+                    document.getElementById("menit").innerText = "00";
+                    document.getElementById("detik").innerText = "00";
+                    return;
+                }
+
+                document.getElementById("hari").innerText = String(Math.floor(selisih / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                document.getElementById("jam").innerText = String(Math.floor((selisih % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                document.getElementById("menit").innerText = String(Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                document.getElementById("detik").innerText = String(Math.floor((selisih % (1000 * 60)) / 1000)).padStart(2, '0');
+            }, 1000);
+        }
+
+        async function kirimRSVP(event) {
+            event.preventDefault(); 
+            const btn = document.querySelector('.form-rsvp button');
+            btn.innerText = "Mengirim..."; btn.disabled = true;
+            
+            const dataKirim = {
+                id_pesanan: idPesanan,
+                nama: document.getElementById('nama-rsvp').value,
+                kehadiran: document.getElementById('kehadiran').value,
+                pesan: document.getElementById('pesan-rsvp').value
+            };
+            
+            try {
+                const response = await fetch(BACKEND_URL, { method: "POST", body: JSON.stringify(dataKirim) });
+                const result = await response.json();
+                if (result.status === "sukses") {
+                    const div = document.createElement('div'); div.className = 'ucapan-item';
+                    const badge = dataKirim.kehadiran === 'Hadir' ? '<span class="badge-hadir">Hadir</span>' : '';
+                    div.innerHTML = `<strong>${dataKirim.nama} ${badge}</strong><p>${dataKirim.pesan}</p>`;
+                    const daftar = document.getElementById('daftar-ucapan');
+                    daftar.insertBefore(div, daftar.firstChild);
+                    document.getElementById('form-rsvp').reset();
+                    alert("Doa restu berhasil dikirim! Terima kasih.");
+                }
+            } catch (error) { alert("Gagal mengirim ucapan."); } 
+            finally { btn.innerText = "Kirim Doa"; btn.disabled = false; }
+        }
+
+        function salinRekening() {
+            const teks = document.getElementById("nomor-rekening").innerText;
+            navigator.clipboard.writeText(teks).then(() => alert("Nomor rekening berhasil disalin: " + teks));
+        }
+    </script>
+</body>
+</html>
