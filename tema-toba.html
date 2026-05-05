@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan Adat Batak Toba</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* --- VARIABEL WARNA ADAT BATAK (Merah, Hitam, Emas) --- */
+        :root {
+            --merah-ulos: #8a1c1c;     
+            --emas-gorga: #C5A059;     
+            --hitam-batak: #1a1a1a;    
+            --bg-color: #FDFBF7;       
+            --bg-card: #FFFFFF;
+            --text-main: #333333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Lora', serif; 
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow: hidden; 
+        }
+        .undangan-aktif { overflow-y: auto; } 
+
+        h1, h2, h3, .font-adat { font-family: 'Playfair Display', serif; }
+
+        /* --- COVER UNDANGAN BATAK --- */
+        #cover {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(rgba(26, 26, 26, 0.8), rgba(138, 28, 28, 0.8)), url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=800&q=80') center/cover;
+            color: #FDFBF7; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; z-index: 9999; transition: transform 1.2s cubic-bezier(0.86, 0, 0.07, 1), opacity 1.2s ease;
+            border: 15px solid var(--emas-gorga); 
+        }
+        .cover-terbuka { transform: translateY(-100vh); opacity: 0; pointer-events: none; }
+        
+        .gokhon { font-size: 1.2rem; letter-spacing: 3px; color: var(--emas-gorga); margin-bottom: 20px; font-weight: bold; }
+        #cover h1 { font-size: 3.2rem; margin: 15px 0; color: #FDFBF7; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        
+        .btn-cover {
+            background-color: var(--emas-gorga); color: var(--hitam-batak); border: none;
+            padding: 12px 35px; border-radius: 5px; font-size: 1rem; font-weight: bold; cursor: pointer;
+            margin-top: 30px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-cover:hover { background-color: #FDFBF7; }
+
+        /* --- LAYOUT UTAMA --- */
+        .wadah { max-width: 500px; margin: 0 auto; background: var(--bg-card); box-shadow: 0 0 30px rgba(0,0,0,0.1); }
+        section { padding: 60px 25px; text-align: center; border-bottom: 2px dashed rgba(197, 160, 89, 0.3); }
+        
+        .judul-section { 
+            font-size: 2.2rem; color: var(--merah-ulos); margin-bottom: 30px; 
+            position: relative; display: inline-block;
+        }
+        .judul-section::after {
+            content: ''; display: block; width: 50px; height: 3px; background: var(--emas-gorga);
+            margin: 10px auto 0 auto;
+        }
+
+        /* --- PROFIL MEMPELAI --- */
+        .mempelai-box { display: flex; flex-direction: column; gap: 40px; margin-top: 20px; }
+        .profil { background: var(--bg-color); padding: 30px 20px; border-radius: 10px; border-top: 5px solid var(--emas-gorga); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .profil h3 { font-size: 1.8rem; color: var(--hitam-batak); margin-bottom: 10px; }
+        .profil p { font-size: 0.95rem; color: var(--text-main); line-height: 1.6; }
+        .dan-simbol { font-size: 2.5rem; color: var(--merah-ulos); }
+
+        /* --- ACARA & COUNTDOWN --- */
+        .countdown-box { display: flex; justify-content: center; gap: 10px; margin: 30px 0; }
+        .cd-item { background: var(--merah-ulos); color: #FDFBF7; padding: 15px 10px; border-radius: 5px; width: 75px; border-bottom: 3px solid var(--emas-gorga); }
+        .cd-item span { display: block; font-size: 1.8rem; font-weight: bold; font-family: 'Playfair Display', serif; }
+        .cd-item small { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .card-acara { background: var(--hitam-batak); color: #FDFBF7; padding: 30px 20px; border-radius: 10px; margin-bottom: 20px; border-left: 5px solid var(--emas-gorga); }
+        .card-acara h3 { color: var(--emas-gorga); font-size: 1.6rem; margin-bottom: 15px; }
+
+        /* --- RSVP & UCAPAN --- */
+        .form-rsvp { display: flex; flex-direction: column; gap: 15px; text-align: left; }
+        .form-rsvp input, .form-rsvp select, .form-rsvp textarea {
+            width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit;
+        }
+        .form-rsvp button { background: var(--merah-ulos); color: white; border: none; padding: 15px; border-radius: 5px; cursor: pointer; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .daftar-ucapan { margin-top: 30px; max-height: 350px; overflow-y: auto; text-align: left; border: 1px solid #eee; padding: 15px; border-radius: 5px; background: var(--bg-color); }
+        .ucapan-item { padding: 15px 0; border-bottom: 1px solid #ddd; font-size: 0.95rem; }
+        .ucapan-item:last-child { border-bottom: none; }
+        .ucapan-item strong { display: block; color: var(--merah-ulos); margin-bottom: 5px; font-size: 1.1rem; }
+        .badge-hadir { background: var(--emas-gorga); color: var(--hitam-batak); padding: 3px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; margin-left: 5px;}
+
+        /* --- REKENING / TINGTING --- */
+        .rek-box { background: var(--bg-color); border: 2px solid var(--emas-gorga); padding: 25px; border-radius: 10px; margin-bottom: 15px; }
+        .btn-salin { background: var(--hitam-batak); color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px; font-size: 0.85rem; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <audio id="musik-latar" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 1. COVER DEPAN -->
+    <div id="cover">
+        <div class="gokhon font-adat">GOKHON DOHOT JOU-JOU</div>
+        <h1 class="nama-mempelai-cover">Nama <br>&<br> Nama</h1>
+        <p style="font-size: 1.1rem; letter-spacing: 1px; margin-bottom: 30px;" class="tanggal-cover">Menunggu Data...</p>
+
+        <p style="font-size: 0.9rem; color: #ccc;">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+        <h2 id="tamu" class="font-adat" style="font-size: 1.8rem; margin: 10px 0; color: var(--emas-gorga);">Tamu Spesial</h2>
+        
+        <button class="btn-cover" onclick="bukaUndangan()">Buka Undangan</button>
+    </div>
+
+    <!-- 2. KONTEN UTAMA -->
+    <div class="wadah">
+        <!-- PEMBUKA -->
+        <section>
+            <h2 class="judul-section" style="font-size: 2.5rem;">Horas!</h2>
+            <p style="color: var(--text-main); font-size: 1rem; line-height: 1.8;">Dengan memohon rahmat dan karunia Tuhan Yang Maha Esa, kami bermaksud mengundang Bapak/Ibu/Saudara/i pada Acara Pemberkatan Nikah & Pesta Adat pernikahan putra-putri kami:</p>
+        </section>
+
+        <!-- PROFIL MEMPELAI -->
+        <section>
+            <div class="mempelai-box">
+                <div class="profil">
+                    <h3 class="nama-pria font-adat">Nama Pria</h3>
+                    <p>Putra dari:<br>Bapak ... & Ibu ... (Boru ...)</p>
+                </div>
+                <div class="dan-simbol font-adat">&</div>
+                <div class="profil">
+                    <h3 class="nama-wanita font-adat">Nama Wanita</h3>
+                    <p>Putri dari:<br>Bapak ... & Ibu ... (Boru ...)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACARA & COUNTDOWN -->
+        <section>
+            <h2 class="judul-section">Waktu & Tempat</h2>
+            
+            <div class="countdown-box">
+                <div class="cd-item"><span id="hari">00</span><small>Hari</small></div>
+                <div class="cd-item"><span id="jam">00</span><small>Jam</small></div>
+                <div class="cd-item"><span id="menit">00</span><small>Menit</small></div>
+                <div class="cd-item"><span id="detik">00</span><small>Detik</small></div>
+            </div>
+
+            <div class="card-acara">
+                <h3 class="font-adat">Pemberkatan Nikah</h3>
+                <p style="margin: 10px 0; color: #ccc;" class="tanggal-teks">Tanggal Acara</p>
+                <p style="font-weight: bold; font-size: 1.1rem; margin-bottom: 5px;">Pukul <span class="waktu-akad">00:00</span> WIB</p>
+                <p class="lokasi-akad">Lokasi Gereja</p>
+            </div>
+
+            <div class="card-acara">
+                <h3 class="font-adat">Pesta Adat & Resepsi</h3>
+                <p style="margin: 10px 0; color: #ccc;" class="tanggal-teks">Tanggal Acara</p>
+                <p style="font-weight: bold; font-size: 1.1rem; margin-bottom: 5px;">Pukul <span class="waktu-resepsi">00:00</span> WIB - Selesai</p>
+                <p class="lokasi-resepsi">Lokasi Gedung / Wisma</p>
+            </div>
+        </section>
+
+        <!-- AMPLOP DIGITAL -->
+        <section>
+            <h2 class="judul-section">Tanda Kasih</h2>
+            <p style="margin-bottom: 25px; font-size: 0.95rem; line-height: 1.6;">Doa restu serta kehadiran Bapak/Ibu/Saudara/i merupakan karunia terindah bagi kami. Jika Bapak/Ibu/Saudara/i ingin memberikan tanda kasih, dapat melalui fitur di bawah ini:</p>
+            
+            <div class="rek-box">
+                <h3 class="nama-bank font-adat" style="color: var(--merah-ulos); font-size: 1.5rem;">Bank ...</h3>
+                <p style="font-size: 1.5rem; font-weight: bold; margin: 10px 0; letter-spacing: 2px;" id="nomor-rekening">0000000000</p>
+                <p class="atas-nama" style="font-style: italic;">a.n ...</p>
+                <button class="btn-salin" onclick="salinRekening()">Salin Rekening</button>
+            </div>
+        </section>
+
+        <!-- RSVP & UCAPAN -->
+        <section>
+            <h2 class="judul-section">Kehadiran & Doa</h2>
+            <form class="form-rsvp" id="form-rsvp" onsubmit="kirimRSVP(event)">
+                <input type="text" id="nama-rsvp" placeholder="Nama Anda & Marga (opsional)" required>
+                <select id="kehadiran" required>
+                    <option value="" disabled selected>Konfirmasi Kehadiran</option>
+                    <option value="Hadir">Ya, Saya Akan Hadir</option>
+                    <option value="Tidak Hadir">Maaf, Saya Tidak Bisa Hadir</option>
+                </select>
+                <textarea id="pesan-rsvp" rows="4" placeholder="Tulis doa restu Anda..." required></textarea>
+                <button type="submit">Kirim Doa Restu</button>
+            </form>
+
+            <div class="daftar-ucapan" id="daftar-ucapan">
+                <!-- Ucapan dari Sheets akan muncul di sini -->
+            </div>
+        </section>
+        
+        <section style="padding: 25px; background: var(--hitam-batak); color: #888; font-size: 0.8rem;">
+            Created with ❤️ by dprnta.studio
+        </section>
+    </div>
+
+    <!-- JAVASCRIPT & INTEGRASI GOOGLE SHEETS -->
+    <script>
+        const BACKEND_URL = "https://script.google.com/macros/s/AKfycbxt7qPyXBbS0wcJeaeslqku-In9OAq-Q99dmqmuUjdpMxKQ13bkth4urMsYo99BBtoz/exec";
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const namaTamu = urlParams.get('to') || "Bapak/Ibu/Saudara/i";
+        const idPesanan = urlParams.get('id') || "INV-001";
+        
+        document.getElementById('tamu').innerText = namaTamu;
+        let targetDate = new Date().getTime(); 
+        let hitungMundur;
+
+        async function muatDataKlien() {
+            try {
+                const response = await fetch(`${BACKEND_URL}?id=${idPesanan}`);
+                const result = await response.json();
+                
+                if (result.status === "sukses") {
+                    const data = result.data;
+                    
+                    document.querySelector('.nama-mempelai-cover').innerHTML = `${data.Nama_Pria} <br>&<br> ${data.Nama_Wanita}`;
+                    document.querySelector('.nama-pria').innerText = data.Nama_Pria;
+                    document.querySelector('.nama-wanita').innerText = data.Nama_Wanita;
+                    document.querySelector('.tanggal-cover').innerText = data.Tanggal_Acara;
+                    
+                    const tglTeks = document.querySelectorAll('.tanggal-teks');
+                    tglTeks.forEach(el => el.innerText = data.Tanggal_Acara);
+                    
+                    document.querySelector('.waktu-akad').innerText = data.Waktu_Akad;
+                    document.querySelector('.lokasi-akad').innerText = data.Lokasi_Akad;
+                    document.querySelector('.waktu-resepsi').innerText = data.Waktu_Resepsi;
+                    document.querySelector('.lokasi-resepsi').innerText = data.Lokasi_Resepsi;
+                    
+                    document.querySelector('.nama-bank').innerText = `Bank ${data.Nama_Bank}`;
+                    document.getElementById('nomor-rekening').innerText = data.Nomor_Rekening;
+                    document.querySelector('.atas-nama').innerText = `a.n. ${data.Atas_Nama_Rekening}`;
+                    
+                    targetDate = new Date(data.Tanggal_Acara).getTime();
+                    mulaiCountdown();
+                }
+            } catch (error) { console.error("Error mengambil data:", error); }
+        }
+
+        muatDataKlien();
+
+        function bukaUndangan() {
+            document.getElementById('cover').classList.add('cover-terbuka');
+            document.body.classList.add('undangan-aktif'); 
+            document.getElementById('musik-latar').play().catch(e => console.log("Autoplay diblokir browser"));
+        }
+        
+        function mulaiCountdown() {
+            clearInterval(hitungMundur);
+            hitungMundur = setInterval(function() {
+                const sekarang = new Date().getTime();
+                const selisih = targetDate - sekarang;
+
+                if (selisih < 0) {
+                    clearInterval(hitungMundur);
+                    document.getElementById("hari").innerText = "00";
+                    document.getElementById("jam").innerText = "00";
+                    document.getElementById("menit").innerText = "00";
+                    document.getElementById("detik").innerText = "00";
+                    return;
+                }
+
+                document.getElementById("hari").innerText = String(Math.floor(selisih / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                document.getElementById("jam").innerText = String(Math.floor((selisih % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                document.getElementById("menit").innerText = String(Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                document.getElementById("detik").innerText = String(Math.floor((selisih % (1000 * 60)) / 1000)).padStart(2, '0');
+            }, 1000);
+        }
+
+        async function kirimRSVP(event) {
+            event.preventDefault(); 
+            const btn = document.querySelector('.form-rsvp button');
+            btn.innerText = "Mengirim..."; btn.disabled = true;
+            
+            const dataKirim = {
+                id_pesanan: idPesanan,
+                nama: document.getElementById('nama-rsvp').value,
+                kehadiran: document.getElementById('kehadiran').value,
+                pesan: document.getElementById('pesan-rsvp').value
+            };
+            
+            try {
+                const response = await fetch(BACKEND_URL, { method: "POST", body: JSON.stringify(dataKirim) });
+                const result = await response.json();
+                if (result.status === "sukses") {
+                    const div = document.createElement('div'); div.className = 'ucapan-item';
+                    const badge = dataKirim.kehadiran === 'Hadir' ? '<span class="badge-hadir">Hadir</span>' : '';
+                    div.innerHTML = `<strong>${dataKirim.nama} ${badge}</strong><p>${dataKirim.pesan}</p>`;
+                    const daftar = document.getElementById('daftar-ucapan');
+                    daftar.insertBefore(div, daftar.firstChild);
+                    document.getElementById('form-rsvp').reset();
+                    alert("Doa restu berhasil dikirim! Terima kasih.");
+                }
+            } catch (error) { alert("Gagal mengirim ucapan."); } 
+            finally { btn.innerText = "Kirim Doa Restu"; btn.disabled = false; }
+        }
+
+        function salinRekening() {
+            const teks = document.getElementById("nomor-rekening").innerText;
+            navigator.clipboard.writeText(teks).then(() => alert("Nomor rekening berhasil disalin: " + teks));
+        }
+    </script>
+</body>
+</html>
