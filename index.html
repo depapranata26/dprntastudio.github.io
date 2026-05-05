@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dprnta.studio | Undangan Digital Eksklusif</title>
+    <style>
+        /* =======================================================
+           1. VARIABEL TEMA STUDIO (Minimalis & Elegan)
+           ======================================================= */
+        :root {
+            --bg-utama: #F9F8F6;       /* Putih tulang / cream sangat muda */
+            --bg-sekunder: #EFEBE4;    /* Aksen abu-abu hangat */
+            --teks-utama: #2C2C2C;     /* Abu-abu hampir hitam */
+            --teks-pudar: #757575;     /* Untuk paragraf */
+            --aksen-elegan: #A38F72;   /* Emas pudar / Taupe */
+            
+            --font-judul: 'Georgia', serif;
+            --font-teks: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* =======================================================
+           2. RESET & LAYOUT GLOBAL
+           ======================================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-teks);
+            background-color: var(--bg-utama);
+            color: var(--teks-utama);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* =======================================================
+           3. NAVIGASI (Menu Atas)
+           ======================================================= */
+        nav {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-judul);
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .logo span { color: var(--aksen-elegan); }
+
+        .btn-nav {
+            padding: 10px 24px;
+            border: 1px solid var(--teks-utama);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: 0.3s ease;
+        }
+        .btn-nav:hover {
+            background-color: var(--teks-utama);
+            color: var(--bg-utama);
+        }
+
+        /* =======================================================
+           4. HERO SECTION
+           ======================================================= */
+        #hero {
+            padding: 100px 0 50px 0;
+            text-align: center;
+        }
+
+        .hero-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--aksen-elegan);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .hero-judul {
+            font-family: var(--font-judul);
+            font-size: 3.5rem;
+            font-weight: normal;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-deskripsi {
+            color: var(--teks-pudar);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 40px auto;
+        }
+
+        .btn-utama {
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: var(--teks-utama);
+            color: var(--bg-utama);
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: 0.3s ease;
+        }
+        .btn-utama:hover { background-color: var(--aksen-elegan); }
+
+        .hero-image {
+            margin-top: 60px;
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        /* =======================================================
+           5. PRICING SECTION (Paket Harga)
+           ======================================================= */
+        #harga {
+            padding: 100px 0;
+            background-color: var(--bg-sekunder);
+        }
+
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-family: var(--font-judul); font-size: 2.5rem; font-weight: normal; }
+
+        .pricing-grid {
+            display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;
+        }
+
+        .harga-card {
+            background: var(--bg-utama);
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            transition: 0.3s;
+        }
+        .harga-card:hover { transform: translateY(-10px); }
+
+        .paket-nama { font-size: 1.2rem; margin-bottom: 10px; font-weight: bold; }
+        .paket-harga { font-family: var(--font-judul); font-size: 2.5rem; margin-bottom: 20px; color: var(--aksen-elegan); }
+        .paket-deskripsi { color: var(--teks-pudar); font-size: 0.9rem; margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 20px;}
+        
+        .paket-fitur { list-style: none; margin-bottom: 30px; }
+        .paket-fitur li { margin-bottom: 12px; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
+        .paket-fitur li::before { content: '✓'; color: var(--aksen-elegan); font-weight: bold; }
+
+        .btn-pesan {
+            display: block; text-align: center; width: 100%; padding: 12px;
+            border: 1px solid var(--teks-utama); border-radius: 8px; transition: 0.3s;
+        }
+        .btn-pesan:hover { background: var(--teks-utama); color: var(--bg-utama); }
+
+        /* =======================================================
+           6. KONSULTASI & NEWSLETTER
+           ======================================================= */
+        #konsultasi { padding: 100px 0; text-align: center; }
+
+        .cta-box {
+            background-color: var(--teks-utama); color: var(--bg-utama);
+            padding: 60px 40px; border-radius: 30px; max-width: 800px; margin: 0 auto;
+        }
+        .cta-box h2 { font-family: var(--font-judul); font-size: 2.2rem; margin-bottom: 15px; }
+
+        .btn-wa {
+            display: inline-flex; align-items: center; gap: 10px;
+            background-color: var(--aksen-elegan); color: white;
+            padding: 15px 30px; border-radius: 30px; margin-top: 25px; font-weight: bold;
+        }
+
+        #newsletter {
+            padding: 80px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; text-align: center;
+        }
+        .news-form {
+            display: flex; justify-content: center; gap: 10px; margin-top: 30px; max-width: 500px; margin: 0 auto;
+        }
+        .news-form input {
+            flex-grow: 1; padding: 15px 20px; border: 1px solid #ddd; border-radius: 30px; outline: none; background-color: transparent;
+        }
+        .btn-news {
+            padding: 15px 30px; background-color: var(--teks-utama); color: var(--bg-utama); border: none; border-radius: 30px; cursor: pointer;
+        }
+
+        /* =======================================================
+           7. FOOTER
+           ======================================================= */
+        footer { padding: 60px 0 30px 0; font-size: 0.9rem; color: var(--teks-pudar); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-logo { font-family: var(--font-judul); color: var(--teks-utama); font-size: 1.4rem; margin-bottom: 15px; }
+        .footer-links h4 { color: var(--teks-utama); margin-bottom: 15px; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a:hover { color: var(--aksen-elegan); }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #eee; }
+
+        /* =======================================================
+           8. ANIMASI ESTETIK (SCROLL REVEAL)
+           ======================================================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- NAVIGASI -->
+        <nav>
+            <div class="logo">dprnta<span>.studio</span></div>
+            <a href="#harga" class="btn-nav">Lihat Paket</a>
+        </nav>
+
+        <!-- HERO SECTION -->
+        <section id="hero">
+            <span class="hero-tag reveal">Digital Wedding Invitation</span>
+            <h1 class="hero-judul reveal delay-1">Sebarkan Kebahagiaan, Tanpa Batasan Ruang & Waktu.</h1>
+            <p class="hero-deskripsi reveal delay-2">Undangan digital eksklusif dengan desain minimalis, fitur cerdas, dan pengalaman yang tak terlupakan bagi tamu Anda.</p>
+            
+            <a href="#harga" class="btn-utama reveal delay-3">Buat Undangan Sekarang</a>
+
+            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Estetik Wedding" class="hero-image reveal delay-3">
+        </section>
+    </div>
+
+    <!-- PRICING SECTION -->
+    <section id="harga">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Pilih Layanan Anda</h2>
+                <p style="color: var(--teks-pudar); margin-top: 10px;">Harga transparan tanpa biaya tersembunyi.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Paket Reguler -->
+                <div class="harga-card reveal delay-1">
+                    <div class="paket-nama">Paket Reguler</div>
+                    <div class="paket-harga">Rp 15.000</div>
+                    <div class="paket-deskripsi">Solusi undangan digital praktis, hemat, dan instan. Selesai otomatis dalam hitungan menit.</div>
+                    <ul class="paket-fitur">
+                        <li>Pilihan 3 Tema Standar</li>
+                        <li>Maksimal 3 Foto Galeri</li>
+                        <li>Fitur RSVP & Buku Tamu</li>
+                        <li>Countdown Timer</li>
+                        <li>Ada Watermark dprnta.studio</li>
+                    </ul>
+                    <a href="https://wa.me/628123456789" class="btn-pesan">Pesan Reguler</a>
+                </div>
+
+                <!-- Paket Premium -->
+                <div class="harga-card reveal delay-2" style="border: 2px solid var(--aksen-elegan);">
+                    <div class="paket-nama">Paket Custom Studio</div>
+                    <div class="paket-harga">Rp 129.000</div>
+                    <div class="paket-deskripsi">Desain eksklusif dengan penyesuaian khusus dan pelayanan personal dari desainer kami.</div>
+                    <ul class="paket-fitur">
+                        <li>Pilihan Tema Bebas & Premium</li>
+                        <li>Galeri Foto Tak Terbatas</li>
+                        <li>Custom Musik (Sesuai Permintaan)</li>
+                        <li>Bebas Watermark</li>
+                        <li>Revisi Desain (Maks. 3x)</li>
+                    </ul>
+                    <a href="https://wa.me/628123456789" class="btn-pesan" style="background: var(--teks-utama); color: var(--bg-utama);">Konsultasi Desain</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KONSULTASI SECTION -->
+    <section id="konsultasi" class="container reveal">
+        <div class="cta-box">
+            <h2>Punya konsep unik di pikiran Anda?</h2>
+            <p>Kami sangat senang mendiskusikan ide kreatif untuk hari spesial Anda. Mari bicarakan undangan impian Anda bersama tim studio kami.</p>
+            <a href="https://wa.me/628123456789" class="btn-wa">Hubungi via WhatsApp</a>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER SECTION -->
+    <section id="newsletter" class="container reveal">
+        <span class="hero-tag">Newsletter</span>
+        <h2 style="font-family: var(--font-judul); font-size: 2rem; font-weight: normal;">Dapatkan Inspirasi Mingguan</h2>
+        <p style="color: var(--teks-pudar); margin-top: 10px;">Tips pernikahan estetik dan penawaran eksklusif langsung ke email Anda.</p>
+        <form class="news-form">
+            <input type="email" placeholder="Alamat email Anda..." required>
+            <button type="submit" class="btn-news">Daftar</button>
+        </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="container reveal delay-1">
+        <div class="footer-grid">
+            <div class="footer-info">
+                <div class="footer-logo">dprnta<span>.studio</span></div>
+                <p>Menciptakan pengalaman digital yang elegan untuk momen yang tak terlupakan. Estetik, Minimalis, dan Berkelas.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Layanan</h4>
+                <ul>
+                    <li><a href="#harga">Paket Reguler</a></li>
+                    <li><a href="#harga">Paket Custom</a></li>
+                    <li><a href="#">Portfolio</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Bantuan</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Kebijakan Privasi</a></li>
+                    <li><a href="#">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Ikuti Kami</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Pinterest</a></li>
+                    <li><a href="#">TikTok</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2024 dprnta.studio - All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- =======================================================
+         SCRIPT ANIMASI SCROLL
+         ======================================================= -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(element => {
+                observer.observe(element);
+            });
+            
+            setTimeout(() => {
+                const heroElements = document.querySelectorAll('#hero .reveal');
+                heroElements.forEach(el => el.classList.add('active'));
+            }, 100);
+        });
+    </script>
+</body>
+</html>
