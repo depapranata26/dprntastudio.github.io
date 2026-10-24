@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bikin PRD — Sistem Ngoding Pakai AI</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f4f2; color: #1c1c1c; line-height: 1.55; }
+  header { background: #14213d; color: #fff; padding: 28px 20px; }
+  header h1 { margin: 0 0 6px; font-size: 26px; }
+  header p { margin: 0; opacity: .85; font-size: 15px; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; font-size: 13px; }
+  .flow span { background: rgba(255,255,255,.14); padding: 5px 10px; border-radius: 20px; }
+  .flow b { color: #fca311; }
+  main { max-width: 720px; margin: 0 auto; padding: 20px 16px 60px; }
+  .card { background: #fff; border-radius: 14px; padding: 18px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  .card h2 { margin: 0 0 4px; font-size: 18px; }
+  .card p.hint { margin: 0 0 12px; color: #666; font-size: 14px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 4px; }
+  input[type=text], textarea, select { width: 100%; padding: 11px 12px; border: 1px solid #ccc; border-radius: 10px; font-size: 15px; font-family: inherit; }
+  textarea { min-height: 70px; resize: vertical; }
+  .feat { display: flex; gap: 8px; margin-bottom: 8px; }
+  .feat input { flex: 1; }
+  .feat button { flex: none; }
+  button { cursor: pointer; border: none; border-radius: 10px; padding: 11px 16px; font-size: 15px; font-weight: 600; }
+  .btn-add { background: #eef2ff; color: #14213d; }
+  .btn-del { background: #fdecea; color: #b3261e; padding: 11px 12px; }
+  .btn-main { background: #fca311; color: #14213d; width: 100%; padding: 15px; font-size: 17px; margin-top: 8px; }
+  .btn-copy { background: #14213d; color: #fff; margin-right: 8px; }
+  .btn-dl { background: #eef2ff; color: #14213d; }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .tabs button { background: #eee; color: #333; padding: 9px 14px; font-size: 14px; }
+  .tabs button.active { background: #14213d; color: #fff; }
+  pre { background: #14213d; color: #f4f4f2; padding: 16px; border-radius: 12px; white-space: pre-wrap; word-wrap: break-word; font-size: 13.5px; max-height: 520px; overflow: auto; }
+  .rules { font-size: 14px; }
+  .rules li { margin-bottom: 6px; }
+  .note { font-size: 13px; color: #666; }
+  #result { display: none; }
+  .err { color: #b3261e; font-size: 14px; margin-top: 8px; display: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Bikin PRD</h1>
+  <p>Sistem ngoding pakai AI: ide mentah &rarr; PRD &rarr; spesifikasi fitur &rarr; task kecil &rarr; AI eksekusi satu per satu. Gratis, tanpa daftar, semua diproses di HP/browser kamu — tidak ada data yang dikirim ke server.</p>
+  <div class="flow"><span><b>1</b> Ide</span><span><b>2</b> PRD</span><span><b>3</b> Spesifikasi</span><span><b>4</b> Task</span><span><b>5</b> Eksekusi</span></div>
+</header>
+
+<main>
+  <div class="card">
+    <h2>Langkah 1 — Ide aplikasi</h2>
+    <p class="hint">Jawab 3 hal ini. Kalau masih kabur, jangan lanjut dulu.</p>
+    <label>Nama aplikasi</label>
+    <input type="text" id="appName" placeholder="mis. Catat Pesanan Warung">
+    <label>Siapa usernya?</label>
+    <input type="text" id="who" placeholder="mis. kasir warung kopi">
+    <label>Masalah apa yang diselesaikan?</label>
+    <textarea id="problem" placeholder="mis. pesanan sering salah catat karena ditulis di kertas"></textarea>
+    <label>Solusinya ngapain aja? (1 kalimat)</label>
+    <textarea id="solution" placeholder="mis. aplikasi catat pesanan dan hitung total otomatis"></textarea>
+    <label>Yang sengaja TIDAK dibuat di versi ini (opsional)</label>
+    <input type="text" id="nongoal" placeholder="mis. pembayaran online, stok bahan">
+  </div>
+
+  <div class="card">
+    <h2>Langkah 2 — Daftar fitur</h2>
+    <p class="hint">Tulis fitur-fiturnya saja, satu per baris. Minimal 1 fitur.</p>
+    <div id="featList"></div>
+    <button class="btn-add" onclick="addFeat()">+ Tambah fitur</button>
+  </div>
+
+  <div class="card">
+    <h2>Langkah 3 — Teknologi (kunci di awal)</h2>
+    <label>Framework / bahasa</label>
+    <select id="stack">
+      <option>HTML + JavaScript biasa (paling gampang, tanpa install)</option>
+      <option>Next.js</option>
+      <option>React + Vite</option>
+      <option>TanStack Start</option>
+    </select>
+    <label>Database</label>
+    <select id="db">
+      <option>Tanpa database dulu (simpan di browser)</option>
+      <option>SQLite</option>
+      <option>PostgreSQL</option>
+    </select>
+    <label>Login user</label>
+    <select id="login">
+      <option>Tidak perlu</option>
+      <option>Perlu</option>
+    </select>
+  </div>
+
+  <button class="btn-main" onclick="generate()">Buat Dokumen &rarr;</button>
+  <p class="err" id="err">Isi dulu nama aplikasi, user, masalah, solusi, dan minimal 1 fitur.</p>
+
+  <div class="card" id="result">
+    <h2>Hasil — tinggal salin ke AI coding agent</h2>
+    <p class="hint">Urutan pakai: PRD dulu, lalu spesifikasi, lalu kerjakan task satu per satu. AGENTS.md disimpan di folder proyek.</p>
+    <div class="tabs">
+      <button onclick="showTab('prd', this)" class="active">PRD</button>
+      <button onclick="showTab('spec', this)">Spesifikasi Fitur</button>
+      <button onclick="showTab('tasks', this)">Task</button>
+      <button onclick="showTab('agents', this)">AGENTS.md</button>
+    </div>
+    <pre id="out"></pre>
+    <button class="btn-copy" onclick="copyOut()">Salin</button>
+    <button class="btn-dl" onclick="downloadOut()">Unduh .md</button>
+  </div>
+
+  <div class="card">
+    <h2>7 Aturan Emas</h2>
+    <ol class="rules">
+      <li><b>Satu tugas per perintah.</b> Perintah borongan = hasil ngarang.</li>
+      <li><b>PRD dulu, kode belakangan.</b> Nggak ada PRD, nggak ada ngoding.</li>
+      <li><b>Kunci teknologi di awal.</b> Ganti stack di tengah jalan = mulai dari nol.</li>
+      <li><b>Acceptance criteria di tiap fitur.</b> Tanpa ini, "jadi" tidak bisa dicek.</li>
+      <li><b>Tes tiap task.</b> Bug kecil yang dibiarkan jadi bug besar 5 task kemudian.</li>
+      <li><b>Keputusan ditulis, bukan diingat.</b> Yang cuma ada di chat akan hilang.</li>
+      <li><b>Review sebelum lanjut.</b> Baca file apa yang diubah AI sebelum perintah berikutnya.</li>
+    </ol>
+    <p class="note">Cara pakai hasil di atas: tempel PRD + AGENTS.md ke AI coding agent, lalu beri SATU task. Tes hasilnya, kalau jalan lanjut task berikutnya, kalau rusak perbaiki dulu. Tiap task selesai = simpan.</p>
+  </div>
+</main>
+
+<script>
+var feats = [];
+var docs = {}, currentTab = 'prd', fileNames = { prd: 'PRD.md', spec: 'spesifikasi-fitur.md', tasks: 'tasks.md', agents: 'AGENTS.md' };
+
+function addFeat(val) {
+  var i = feats.length;
+  feats.push(val || '');
+  var d = document.createElement('div');
+  d.className = 'feat'; d.id = 'feat' + i;
+  d.innerHTML = '<input type="text" placeholder="mis. Tambah pesanan" oninput="feats[' + i + ']=this.value">' +
+    '<button class="btn-del" onclick="delFeat(' + i + ')">Hapus</button>';
+  document.getElementById('featList').appendChild(d);
+  if (val) d.querySelector('input').value = val;
+}
+function delFeat(i) {
+  feats[i] = null;
+  var el = document.getElementById('feat' + i);
+  if (el) el.remove();
+}
+addFeat(''); addFeat(''); addFeat('');
+
+function esc(s) { return (s || '').trim(); }
+function generate() {
+  var name = esc(document.getElementById('appName').value);
+  var who = esc(document.getElementById('who').value);
+  var problem = esc(document.getElementById('problem').value);
+  var solution = esc(document.getElementById('solution').value);
+  var nongoal = esc(document.getElementById('nongoal').value) || 'Pembayaran online dan fitur di luar daftar di bawah';
+  var stack = document.getElementById('stack').value;
+  var db = document.getElementById('db').value;
+  var login = document.getElementById('login').value;
+  var list = feats.filter(function(f) { return f && f.trim(); }).map(function(f) { return f.trim(); });
+  var err = document.getElementById('err');
+  if (!name || !who || !problem || !solution || !list.length) { err.style.display = 'block'; return; }
+  err.style.display = 'none';
+
+  var prd = '# PRD: ' + name + '\n\n## 1. Ringkasan\nAplikasi ini untuk ' + who + ', menyelesaikan masalah: ' + problem + ', dengan cara: ' + solution + '.\n\n## 2. Target user\n- User utama: ' + who + '.\n\n## 3. Fitur\n' + list.map(function(f, i) { return (i + 1) + '. ' + f; }).join('\n') + '\n\n## 4. Alur user utama\n1. User buka aplikasi dan melihat halaman utama.\n2. User memakai fitur sesuai daftar di atas, mengikuti urutan yang paling sering dipakai.\n3. User melihat hasil aksinya langsung di layar, dengan pesan sukses atau error yang jelas.\n\n## 5. Data yang disimpan\n- Data tiap fitur di atas, dengan field yang wajar untuk kebutuhan fitur tersebut.\n- Data tidak boleh hilang saat aplikasi ditutup (sesuaikan dengan database yang dipilih).\n\n## 6. Teknologi\n- Framework/bahasa: ' + stack + '\n- Database: ' + db + '\n- Login user: ' + login + '\n\n## 7. Kriteria sukses\nAplikasi dibilang jadi kalau:\n' + list.map(function(f) { return '- [ ] Fitur "' + f + '" bisa dipakai dari awal sampai akhir tanpa error.'; }).join('\n') + '\n- [ ] Input kosong dan input salah ditangani dengan pesan yang jelas, bukan crash.\n\n## 8. Bukan tujuan (non-goal)\n- ' + nongoal + '\n';
+
+  var spec = list.map(function(f, i) {
+    return '## Fitur ' + (i + 1) + ': ' + f + '\n\n- Tujuan: mendukung "' + solution + '" lewat ' + f.toLowerCase() + '.\n- User story: Sebagai ' + who + ', saya mau ' + f.toLowerCase() + ' supaya pekerjaan saya lebih cepat dan tidak salah catat.\n- Yang harus terjadi (acceptance criteria):\n  - [ ] Kalau user memakai fitur ini dengan data benar, hasilnya tampil sesuai harapan.\n  - [ ] Kalau data masih kosong, tampil pesan yang jelas (bukan halaman blank/error).\n  - [ ] Kalau input salah (kosong, angka negatif, format salah), tampil pesan error yang menjelaskan apa yang salah.\n- Data yang dipakai: data terkait fitur ini, konsisten dengan PRD bagian 5.\n- Kasus pinggiran: data kosong, data dobel, input ekstrem, dan koneksi/database gagal.\n';
+  }).join('\n');
+
+  var tasks = '## Task 0 — Setup proyek\n- [ ] Buat struktur proyek dengan stack: ' + stack + ', database: ' + db + ', login: ' + login + '.\n- [ ] Buat file AGENTS.md (lihat tab AGENTS.md) dan pastikan agent membacanya.\n- [ ] Pastikan aplikasi bisa jalan kosong (tampil halaman utama) sebelum lanjut.\n\n' + list.map(function(f, i) {
+    return '## Task fitur ' + (i + 1) + ': ' + f + '\n- [ ] Data: siapkan penyimpanan data untuk fitur ini (' + db + ').\n- [ ] Input: buatkan form/aksi untuk ' + f.toLowerCase() + ' dengan validasi (wajib isi, angka minimal 1 bila relevan).\n- [ ] Tampil: hasil ' + f.toLowerCase() + ' terlihat di layar setelah aksi dilakukan.\n- [ ] Kasus kosong & salah: pesan jelas, tidak crash.\n- [ ] Tes manual: jalankan skenario benar, kosong, dan salah, lalu laporkan hasilnya.\n';
+  }).join('\n') + '\n## Task akhir\n- [ ] Uji semua fitur berurutan dari awal sampai akhir.\n- [ ] Perbaiki bug yang ditemukan sebelum menambah fitur baru.\n';
+
+  var agents = '# AGENTS.md — ' + name + '\n\n## Stack\n- Framework/bahasa: ' + stack + '\n- Database: ' + db + '\n- Login user: ' + login + '\n\n## Cara jalanin & ngetes\n- Jalanin: sesuai perintah standar stack di atas (mis. npm run dev untuk Next.js/React, atau buka index.html untuk HTML biasa).\n- Ngetes: jalankan tiap fitur dengan skenario benar, kosong, dan salah.\n\n## Aturan\n- Jangan mengubah teknologi tanpa persetujuan saya.\n- Jangan menambah fitur di luar PRD dan spesifikasi.\n- Kalau ada yang ambigu, tanya dulu, jangan dikarang.\n- Setiap selesai satu task, laporkan file yang diubah + cara mengetesnya.\n- Jangan pernah menghapus data user tanpa konfirmasi.\n';
+
+  docs = { prd: prd, spec: spec, tasks: tasks, agents: agents };
+  document.getElementById('result').style.display = 'block';
+  showTab('prd', document.querySelector('.tabs button'));
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+}
+function showTab(t, btn) {
+  currentTab = t;
+  document.querySelectorAll('.tabs button').forEach(function(b) { b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  document.getElementById('out').textContent = docs[t] || '';
+}
+function copyOut() {
+  var t = docs[currentTab] || '';
+  if (navigator.clipboard) { navigator.clipboard.writeText(t).then(function() { alert('Tersalin! Tempel ke AI coding agent.'); }); }
+  else { var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); alert('Tersalin!'); }
+}
+function downloadOut() {
+  var t = docs[currentTab] || '';
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([t], { type: 'text/markdown' }));
+  a.download = fileNames[currentTab];
+  a.click();
+}
+</script>
+</body>
+</html>
